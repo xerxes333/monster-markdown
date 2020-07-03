@@ -1,0 +1,21 @@
+version: '3'
+ 
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+      - 35729:35729
+    # command: yarn start
+    command: sh -c "yarn install && yarn start"
+    # working_dir: /usr/src/app
+    volumes: 
+      - .:/usr/src/app
+      # - ./src:/usr/src/app/src
+      # - ./public:/usr/src/app/public
+    environment: 
+      - CHOKIDAR_USEPOLLING=true
+    stdin_open: true
+    tty: true
