@@ -1,33 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import { makeStyles } from '@material-ui/core/styles';
-import _ from 'lodash';
+import React, { useState, useEffect } from "react";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import { makeStyles } from "@material-ui/core/styles";
+import _ from "lodash";
 
 function QueryResults(props) {
-
   const { results, setText } = props;
-  const [slug, setSlug] = useState('');
+  const [slug, setSlug] = useState("");
 
   const listItems2 = results.map((result, k) => {
     return (
       <MenuItem value={result.slug} key={result.slug}>
         {result.name}
-      </MenuItem> 
-    )
+      </MenuItem>
+    );
   });
 
-  /** 
+  /**
    * TODO: I don't like this implementation
-   * 
-   * What I want to have happen is when the list of options 
+   *
+   * What I want to have happen is when the list of options
    * is created to automatically pic the first one
    * but not interfere with normal select changes
    */
   useEffect(() => {
-    if(listItems2.length === 1) {
+    if (listItems2.length === 1) {
       setSlug(results[0].slug);
       setText(results[0]);
     }
@@ -35,15 +34,13 @@ function QueryResults(props) {
 
   const handleChange = (event) => {
     setSlug(event.target.value);
-    setText(
-      _.find(results, ['slug', event.target.value])
-    );
+    setText(_.find(results, ["slug", event.target.value]));
   };
 
   const useStyles = makeStyles((theme) => ({
     select: {
-      marginBottom: theme.spacing(3)
-    }
+      marginBottom: theme.spacing(3),
+    },
   }));
 
   const classes = useStyles();
@@ -57,7 +54,7 @@ function QueryResults(props) {
           id="simple-select"
           value={slug}
           onChange={handleChange}
-          variant='outlined'
+          variant="outlined"
           autoFocus
         >
           {listItems2}
@@ -65,7 +62,6 @@ function QueryResults(props) {
       </FormControl>
     </>
   );
-
 }
 
 export default QueryResults;
