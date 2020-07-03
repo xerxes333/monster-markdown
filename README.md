@@ -12,6 +12,11 @@ If you want to print the lists in clean black & white PDF add the following bit 
 
 ```
 
+Run local with:
+```
+yarn install
+yarn start
+```
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
