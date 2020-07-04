@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import Container from "@material-ui/core/Container";
+import { Container, Typography } from "@material-ui/core";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import QueryResults from "../queryResults";
 import Clipboard from "../clipboard";
 import Search from "../search";
 import "./app.css";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 
 function App() {
   const theme = "dark";

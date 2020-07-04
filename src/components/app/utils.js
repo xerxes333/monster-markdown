@@ -2,7 +2,10 @@
  * TODO: I'm sure there is a more elegant way to do this but
  * this is where I am right now so ¯\_(ツ)_/¯
  */
-import _ from "lodash";
+import _each from "lodash/each";
+import _find from "lodash/find";
+import _join from "lodash/join";
+import _upperFirst from "lodash/upperFirst";
 
 const line = `___`;
 const saves = [
@@ -83,7 +86,7 @@ const savingThrows = (obj) => {
     })
     .filter((s) => s);
 
-  return _.join(list, ", ");
+  return _join(list, ", ");
 };
 
 /**
@@ -93,10 +96,10 @@ const savingThrows = (obj) => {
  */
 const skills = (skills) => {
   let list = [];
-  _.each(skills, (val, key) => {
-    list.push(`${_.upperFirst(key)} ${sign(val)}`);
+  _each(skills, (val, key) => {
+    list.push(`${_upperFirst(key)} ${sign(val)}`);
   });
-  return _.join(list, ", ");
+  return _join(list, ", ");
 };
 
 /**
@@ -152,64 +155,63 @@ const doubleSpace = (list) => {
  * @return {string} Returns markdown text string from response object
  */
 const mash = (data) => {
-  const obj = data;
   let txt = [];
 
   txt.push(line);
   txt.push(line);
-  txt.push(`## ${obj["name"]}`);
-  txt.push(`*${obj["size"]}, ${obj["alignment"]}*`);
+  txt.push(`## ${data.name}`);
+  txt.push(`*${data.size}, ${data.alignment}*`);
 
   txt.push(line);
-  txt.push(`- **Armor Class** ${obj["armor_class"]} (${obj["armor_desc"]})`);
-  txt.push(`- **Hit Points** ${obj["hit_points"]}`);
+  txt.push(`- **Armor Class** ${data.armor_class} (${data.armor_desc})`);
+  txt.push(`- **Hit Points** ${data.hit_points}`);
 
   const speed =
-    `- **Speed** ${obj["speed"]["walk"]}ft.` +
-    (obj["speed"]["fly"] ? `, fly ${obj["speed"]["fly"]}ft.` : "") +
-    (obj["speed"]["swim"] ? `, swim ${obj["speed"]["swim"]}ft.` : "");
+    `- **Speed** ${data.speed.walk}ft.` +
+    (data.speed.fly ? `, fly ${data.speed.fly}ft.` : "") +
+    (data.speed.swim ? `, swim ${data.speed.swim}ft.` : "");
   txt.push(speed);
 
   txt.push(line);
   txt.push(`|  STR  |  DEX  |  CON  |  INT  |  WIS  |  CHA  |`);
   txt.push(`|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|`);
   txt.push(
-    `|${obj["strength"]} (${abilityMod(obj["strength"])})|` +
-      `${obj["dexterity"]} (${abilityMod(obj["dexterity"])})|` +
-      `${obj["constitution"]} (${abilityMod(obj["constitution"])})|` +
-      `${obj["intelligence"]} (${abilityMod(obj["intelligence"])})|` +
-      `${obj["wisdom"]} (${abilityMod(obj["wisdom"])})|` +
-      `${obj["charisma"]} (${abilityMod(obj["charisma"])})|`
+    `|${data.strength} (${abilityMod(data.strength)})|` +
+      `${data.dexterity} (${abilityMod(data.dexterity)})|` +
+      `${data.constitution} (${abilityMod(data.constitution)})|` +
+      `${data.intelligence} (${abilityMod(data.intelligence)})|` +
+      `${data.wisdom} (${abilityMod(data.wisdom)})|` +
+      `${data.charisma} (${abilityMod(data.charisma)})|`
   );
 
   txt.push(line);
-  const saving = savingThrows(obj);
+  const saving = savingThrows(data);
   if (saving) txt.push(`- **Saving Throws** ${saving}`);
-  txt.push(`- **Skills** ${skills(obj["skills"])}`);
+  txt.push(`- **Skills** ${skills(data.skills)}`);
 
-  if (obj["damage_immunities"])
-    txt.push(`- **Damage Immunities** ${obj["damage_immunities"]}`);
-  if (obj["condition_immunities"])
-    txt.push(`- **Condition Immunities** ${obj["condition_immunities"]}`);
-  txt.push(`- **Senses** ${obj["senses"]}`);
-  txt.push(`- **Languages** ${obj["languages"]}`);
+  if (data.damage_immunities)
+    txt.push(`- **Damage Immunities** ${data.damage_immunities}`);
+  if (data.condition_immunities)
+    txt.push(`- **Condition Immunities** ${data.condition_immunities}`);
+  txt.push(`- **Senses** ${data.senses}`);
+  txt.push(`- **Languages** ${data.languages}`);
 
-  const xp = _.find(crTable, ["cr", obj["challenge_rating"]]).xp;
-  txt.push(`- **Challenge** ${obj["challenge_rating"]} (${xp}xp)`);
+  const xp = _find(crTable, ["cr", data.challenge_rating]).xp;
+  txt.push(`- **Challenge** ${data.challenge_rating} (${xp}xp)`);
 
   txt.push(line);
 
-  if (obj["special_abilities"]) {
+  if (data.special_abilities) {
     // txt.push(`### Special Abilities`);
-    txt = txt.concat(specialAbilities(obj["special_abilities"]));
+    txt = txt.concat(specialAbilities(data.special_abilities));
   }
 
-  if (obj["actions"]) {
+  if (data.actions) {
     txt.push(`### Actions`);
-    txt = txt.concat(actions(obj["actions"]));
+    txt = txt.concat(actions(data.actions));
   }
 
-  const output = _.join(
+  const output = _join(
     txt.map((ln, i) => {
       if (i <= 1) return ln;
       return `>${ln}`;

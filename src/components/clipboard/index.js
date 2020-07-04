@@ -1,1 +1,1 @@
-export { default }from './clipboard.js';
+export { default }from './clipboard.jsx';

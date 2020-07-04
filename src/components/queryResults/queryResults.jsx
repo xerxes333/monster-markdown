@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
+import { InputLabel, FormControl, MenuItem, Select } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import _ from "lodash";
+import _find from "lodash/find";
 
 function QueryResults(props) {
   const { results, setText } = props;
@@ -34,7 +31,7 @@ function QueryResults(props) {
 
   const handleChange = (event) => {
     setSlug(event.target.value);
-    setText(_.find(results, ["slug", event.target.value]));
+    setText(_find(results, ["slug", event.target.value]));
   };
 
   const useStyles = makeStyles((theme) => ({

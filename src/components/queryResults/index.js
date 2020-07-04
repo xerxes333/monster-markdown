@@ -1,1 +1,1 @@
-export { default }from './queryResults.js';
+export { default }from './queryResults.jsx';

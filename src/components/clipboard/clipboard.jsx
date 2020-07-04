@@ -1,7 +1,5 @@
 import React, { useRef } from "react";
-import { Button, TextField } from "@material-ui/core";
-import Link from "@material-ui/core/Link";
-import Typography from "@material-ui/core/Typography";
+import { Button, Link, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { mash } from "../app/utils";
 

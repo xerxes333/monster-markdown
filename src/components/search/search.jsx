@@ -1,9 +1,7 @@
 import React, { useState } from "react";
+import { IconButton, InputBase, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
-import Paper from "@material-ui/core/Paper";
 
 function Search(props) {
   const { setQueryResults } = props;
@@ -19,7 +17,7 @@ function Search(props) {
       .then((res) => {
         setQueryResults(res.results);
       })
-      .catch(() => console.log("error"));
+      .catch((error) => console.log(error));
   };
 
   const useStyles = makeStyles((theme) => ({
